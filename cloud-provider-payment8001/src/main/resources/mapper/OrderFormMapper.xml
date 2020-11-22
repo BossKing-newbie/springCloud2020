@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.example.springcloud.mapper.OrderFormMapper">
+	<sql id="orderFormList">
+		SELECT order_form_number,order_form_products_id,order_form_user_id,order_form_time,order_form_start_address,order_form_end_address,order_form_weight,
+		order_form_money,order_form_status,order_form_way FROM order_form
+	</sql>
+	<sql id="orderInfoList">
+		SELECT order_form_number,order_sender,order_sender_phone,order_recipient,order_recipient_phone FROM order_info
+	</sql>
+	<select id="selectList" resultType="OrderForm">
+		<include refid="orderFormList"/>
+	</select>
+	<select id="selectOrderInfoById" parameterType="String" resultType="OrderInfo">
+		<include refid="orderInfoList"/>
+		<where>
+			<if test="orderFormNumber!=null and orderFormNumber!=''">
+				order_form_number = #{orderFormNumber}
+			</if>
+		</where>
+	</select>
+</mapper>
